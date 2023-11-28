@@ -1,4 +1,5 @@
 ##### Import
+import pandas as pd
 from Bio import SeqIO
 from lib import feature
 
@@ -22,7 +23,7 @@ class Encoder:
             X.append(negativeData)
             y.append(0)
 
-        return X, y
+        return pd.DataFrame(X), pd.DataFrame(y)
 
     def ToAAC(self):
         X, y = [], []
@@ -35,7 +36,7 @@ class Encoder:
             X.append(negativeData)
             y.append(0)
 
-        return X, y
+        return pd.DataFrame(X), pd.DataFrame(y)
 
     def ToPWM(self):
         X, y = [], []
@@ -48,7 +49,7 @@ class Encoder:
             X.append(negativeData)
             y.append(0)
 
-        return X, y
+        return pd.DataFrame(X), pd.DataFrame(y)
     
     def ToPSSM(self):
         X, y = [], []
@@ -61,7 +62,7 @@ class Encoder:
             X.append(negativeData)
             y.append(0)
 
-        return X, y
+        return pd.DataFrame(X), pd.DataFrame(y)
 
     def ToBLOSUM62(self):
         X, y = [], []
@@ -74,4 +75,4 @@ class Encoder:
             X.append(negativeData)
             y.append(0)
 
-        return X, y
+        return pd.DataFrame(X), pd.DataFrame(y)
