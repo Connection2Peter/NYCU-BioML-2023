@@ -98,12 +98,12 @@ def BLOSUM62(Seqs):
         seqEncodes = []
 
         for idx in range(len(seq)-1):
-            aa1, aa2 = [idx], seq[idx+1]
+            aa1, aa2 = seq[idx], seq[idx+1]
 
             if (aa1, aa2) in Mat:
-                seqEncodes.append(blosum62[(aa1, aa2)])
+                seqEncodes.append(Mat[(aa1, aa2)])
             elif (aa2, aa1) in Mat:
-                seqEncodes.append(blosum62[(aa2, aa1)])
+                seqEncodes.append(Mat[(aa2, aa1)])
             else:
                 seqEncodes.append(0)
 
