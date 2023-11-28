@@ -62,3 +62,16 @@ class Encoder:
             y.append(0)
 
         return X, y
+
+    def ToBLOSUM62(self):
+        X, y = [], []
+
+        for positiveData in feature.BLOSUM62([str(record.seq) for record in SeqIO.parse(self.db1, "fasta")]):
+            X.append(positiveData)
+            y.append(1)
+
+        for negativeData in feature.BLOSUM62([str(record.seq) for record in SeqIO.parse(self.db2, "fasta")]):
+            X.append(negativeData)
+            y.append(0)
+
+        return X, y

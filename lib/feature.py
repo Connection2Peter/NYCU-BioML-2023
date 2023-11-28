@@ -1,5 +1,6 @@
 ##### Import
 from Bio import motifs
+from Bio.Align import substitution_matrices
 
 
 
@@ -14,16 +15,16 @@ def OneHot(Seqs):
     Datas = []
 
     for seq in Seqs:
-        SeqEncodes = []
+        seqEncodess = []
 
         for aaQry in seq:
             for aa in AA:
                 if aa == aaQry:
-                    SeqEncodes.append(1)
+                    seqEncodess.append(1)
                 else:
-                    SeqEncodes.append(0)
+                    seqEncodess.append(0)
 
-        Datas.append(SeqEncodes)
+        Datas.append(seqEncodess)
 
     return Datas
 
@@ -62,12 +63,12 @@ def PWM(Seqs):
     Mat = motifs.create(Seqs, AA).counts.normalize()
 
     for seq in Seqs:
-        seqEncode = []
+        seqEncodes = []
 
         for idx in range(len(seq)):
-            seqEncode.append(Mat[seq[idx]][idx])
+            seqEncodes.append(Mat[seq[idx]][idx])
 
-        Datas.append(seqEncode)
+        Datas.append(seqEncodes)
 
     return Datas
 
@@ -78,11 +79,34 @@ def PSSM(Seqs):
     Mat = motifs.create(Seqs, AA).counts.normalize().log_odds()
 
     for seq in Seqs:
-        seqEncode = []
+        seqEncodes = []
 
         for idx in range(len(seq)):
-            seqEncode.append(Mat[seq[idx]][idx])
+            seqEncodes.append(Mat[seq[idx]][idx])
 
-        Datas.append(seqEncode)
+        Datas.append(seqEncodes)
+
+    return Datas
+
+### BLOSUM62
+def BLOSUM62(Seqs):
+    Datas = []
+
+    Mat = substitution_matrices.load('BLOSUM62')
+
+    for seq in Seqs:
+        seqEncodes = []
+
+        for idx in range(len(seq)-1):
+            aa1, aa2 = [idx], seq[idx+1]
+
+            if (aa1, aa2) in Mat:
+                seqEncodes.append(blosum62[(aa1, aa2)])
+            elif (aa2, aa1) in Mat:
+                seqEncodes.append(blosum62[(aa2, aa1)])
+            else:
+                seqEncodes.append(0)
+
+        Datas.append(seqEncodes)
 
     return Datas

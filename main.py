@@ -18,6 +18,6 @@ if errMsg != "":
 ##### Main
 AAencoder = encoder.Encoder(Config.positive_data, Config.negative_data)
 
-X, y = AAencoder.ToPSSM()
+X, y = AAencoder.ToBLOSUM62()
 
 print(pd.DataFrame(X))
