@@ -27,22 +27,22 @@ def GetQ1Feature(Encoder):
     X5, y5 = Encoder.ToBLOSUM62()
 
     DBs = {
-        "OneHot" : {"X": X1, "y" : y1, "Name" : "One-hot encoding"},
-        "AAC"    : {"X": X2, "y" : y2, "Name" : "Amino acid composition"},
-        "PWM"    : {"X": X3, "y" : y3, "Name" : "Positional Weighted Matrix"},
-        "PSSM"   : {"X": X4, "y" : y4, "Name" : "Position-specific scoring matrix"},
-        "BLOSUM" : {"X": X5, "y" : y5, "Name" : "BLOSUM62"},
+        "OneHot" : {"X": X1, "y" : y1},
+        "AAC"    : {"X": X2, "y" : y2},
+        "PWM"    : {"X": X3, "y" : y3},
+        "PSSM"   : {"X": X4, "y" : y4},
+        "BLOSUM" : {"X": X5, "y" : y5},
     }
 
     return DBs
 
 def GetQ2Classifier():
     Clfs = {
-        "RF" : {"Model" :  classifier.RandomForest(nTree), "Name" : "Random Forest"},
-        "RF" : {"Model" :  classifier.RandomForest(nTree), "Name" : "Random Forest"},
-        "RF" : {"Model" :  classifier.RandomForest(nTree), "Name" : "Random Forest"},
-        "RF" : {"Model" :  classifier.RandomForest(nTree), "Name" : "Random Forest"},
-        "RF" : {"Model" :  classifier.RandomForest(nTree), "Name" : "Random Forest"},
+        "Decision Tree"  : classifier.DecisionTree(),
+        "Random Forest"  : classifier.RandomForest(nTree),
+        "Support Vector Machine" : classifier.SupportVectorMachine(),
+        "XGBoost" : classifier.XGBoost(nTree),
+        "Multilayer Perceptron" : classifier.MultilayerPerceptron(),
     }
 
     return Clfs
@@ -50,15 +50,16 @@ def GetQ2Classifier():
 
 
 ##### Main
-DataSplit = dataset.SplitNfold(nSplit)
+FeatureEncoder = encoder.Encode(Config.positive_data, Config.negative_data)
 
 ### Q1
-Datas = GetQ1Feature(encoder.Encode(Config.positive_data, Config.negative_data))
-
-RF = classifier.RandomForest(nTree)
-
 print("### 1. Performance Comparison of Different Feature Encoding Methods")
 print("Feature", "\t".join(["Sn", "Sp", "Acc", "MCC", "AUC"]))
+
+RF = classifier.RandomForest(nTree)
+Datas = GetQ1Feature(FeatureEncoder)
+DataSplit = dataset.SplitNfold(nSplit)
+
 for k, Vs in Datas.items():
     X, y = Vs["X"], Vs["y"]
     Evas = []
@@ -73,7 +74,21 @@ for k, Vs in Datas.items():
 
     print("{}\t{}".format(k, "\t".join(["{:.3f}".format(100*v) for v in np.mean(np.array(Evas), axis=0)])))
 
-print("### 2. Performance Comparison of Different Supervised Learning Methods")
+del(Datas, RF)
 
+### Q2
+print("### 2. Performance Comparison of Different Supervised Learning Methods")
+ROCs = []
+X, y = FeatureEncoder.ToPSSM()
+Clfs = GetQ2Classifier()
+
+for k, model in Clfs.items():
+    X_train, X_test, y_train, y_test = dataset.SplitDataset(X, y, 0.3)
+
+    model.fit(X_train, y_train.values.ravel())
+
+    ROCs.append([k, dataset.ROC(y_test, model.predict(X_test))])
+    
+dataset.ROCs(ROCs)
 
 print("### Done !")
