@@ -21,10 +21,10 @@ def Balance(db1, db2):
 	return [db1, random.sample(db2, num1)]
 
 def SplitDataset(X, y, testRatio):
-	return train_test_split(X, y, test_size=testRatio, random_state=87)
+	return train_test_split(X, y, test_size=testRatio)
 
 def SplitNfold(numSplit):
-	return StratifiedKFold(n_splits=numSplit, shuffle=True, random_state=87)
+	return StratifiedKFold(n_splits=numSplit, shuffle=True)
 
 def ROC(y_test, y_pred):
 	fpr, tpr, _ = roc_curve(y_test, y_pred)

@@ -9,16 +9,16 @@ from sklearn.ensemble import RandomForestClassifier
 
 ##### Functions
 def DecisionTree():
-    return DecisionTreeClassifier(random_state=87)
+    return DecisionTreeClassifier()
 
 def RandomForest(nTree):
-	return RandomForestClassifier(n_estimators=nTree, random_state=87, n_jobs=-1)
+	return RandomForestClassifier(n_estimators=nTree, n_jobs=-1)
 
 def SupportVectorMachine():
-    return SVC(random_state=87)
+    return SVC()
 
 def XGBoost(nTree):
-    return XGBClassifier(n_estimators=nTree, random_state=87, n_jobs=-1)
+    return XGBClassifier(n_estimators=nTree, n_jobs=-1)
 
 def MultilayerPerceptron():
-    return MLPClassifier(random_state=87, max_iter=2000)
+    return MLPClassifier(max_iter=2000)
