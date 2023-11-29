@@ -29,7 +29,7 @@ def SplitNfold(numSplit):
 def ROC(y_test, y_pred):
 	fpr, tpr, _ = roc_curve(y_test, y_pred)
 
-	return [fpr, tpr, round(roc_auc_score(y_test, y_pred), 6)]
+	return [fpr, tpr]
 
 def ROCs(Datas):
 	for Data in Datas:

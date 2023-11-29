@@ -38,11 +38,11 @@ def GetQ1Feature(Encoder):
 
 def GetQ2Classifier():
     Clfs = {
-        "Decision Tree"  : classifier.DecisionTree(),
-        "Random Forest"  : classifier.RandomForest(nTree),
-        "Support Vector Machine" : classifier.SupportVectorMachine(),
-        "XGBoost" : classifier.XGBoost(nTree),
-        "Multilayer Perceptron" : classifier.MultilayerPerceptron(),
+        "DT"  : {"Model" : classifier.DecisionTree(), "Name" : "Decision Tree"},
+        "RF"  : {"Model" : classifier.RandomForest(nTree), "Name" : "Random Forest"},
+        "SVM" : {"Model" : classifier.SupportVectorMachine(), "Name" : "Support Vector Machine"},
+        "XGB" : {"Model" : classifier.XGBoost(nTree), "Name" : "XGBoost"},
+        "MLP" : {"Model" : classifier.MultilayerPerceptron(), "Name" : "Multilayer Perceptron"},
     }
 
     return Clfs
@@ -50,6 +50,7 @@ def GetQ2Classifier():
 
 
 ##### Main
+DataSplit = dataset.SplitNfold(nSplit)
 FeatureEncoder = encoder.Encode(Config.positive_data, Config.negative_data)
 
 ### Q1
@@ -58,7 +59,6 @@ print("Feature", "\t".join(["Sn", "Sp", "Acc", "MCC", "AUC"]))
 
 RF = classifier.RandomForest(nTree)
 Datas = GetQ1Feature(FeatureEncoder)
-DataSplit = dataset.SplitNfold(nSplit)
 
 for k, Vs in Datas.items():
     X, y = Vs["X"], Vs["y"]
@@ -78,17 +78,33 @@ del(Datas, RF)
 
 ### Q2
 print("### 2. Performance Comparison of Different Supervised Learning Methods")
-ROCs = []
+print("Method", "\t".join(["Sn", "Sp", "Acc", "MCC", "AUC"]))
+
+MeanROCs = []
 X, y = FeatureEncoder.ToPSSM()
 Clfs = GetQ2Classifier()
 
-for k, model in Clfs.items():
-    X_train, X_test, y_train, y_test = dataset.SplitDataset(X, y, 0.3)
+for k, Vs in Clfs.items():
+    model = Vs["Model"]
+    Evas, ROCs = [], []
 
-    model.fit(X_train, y_train.values.ravel())
+    for trainIdx, testIdx in DataSplit.split(X, y):
+        X_train, X_test = X.iloc[trainIdx], X.iloc[testIdx]
+        y_train, y_test = y.iloc[trainIdx], y.iloc[testIdx]
 
-    ROCs.append([k, dataset.ROC(y_test, model.predict(X_test))])
-    
-dataset.ROCs(ROCs)
+        model.fit(X_train, y_train.values.ravel())
+
+        y_pred = model.predict(X_test)
+        
+        ROCs.append(dataset.ROC(y_test, y_pred))
+        Evas.append(dataset.Evaluation(y_test, y_pred))
+
+    Means = np.mean(np.array(Evas), axis=0)
+    Temps = np.mean(np.array(np.array(ROCs)), axis=0)
+    MeanROCs.append([Vs["Name"], [Temps[0], Temps[1], round(Means[4], 8)]])
+
+    print("{}\t{}".format(k, "\t".join(["{:.3f}".format(100*v) for v in Means])))
+
+dataset.ROCs(MeanROCs)
 
 print("### Done !")
