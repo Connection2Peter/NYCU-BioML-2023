@@ -2,12 +2,24 @@
 import os, sys
 import pandas as pd
 
-n = 10
+if len(sys.argv) < 3:
+	exit("Arg miss")
+
+if not os.path.isfile(sys.argv[1]):
+	exit("In file not exist")
+
+n = 50
 Ps = pd.read_csv(sys.argv[1], sep='\t', header=None).values.tolist()
 Ss = {}
 
-Pd = open(os.path.join(sys.argv[2], 'positive.fasta'), 'w')
-Nd = open(os.path.join(sys.argv[2], 'negative.fasta'), 'w')
+Pf = os.path.join(sys.argv[2], 'positive_{}.fasta'.format(n))
+Nf = os.path.join(sys.argv[2], 'negative_{}.fasta'.format(n))
+
+if os.path.isfile(Pf) or os.path.isfile(Nf):
+	exit("Out file exist")
+
+Pd = open(Pf, 'w')
+Nd = open(Nf, 'w')
 
 for p in Ps:
 	if p[3] in Ss:
