@@ -2,6 +2,7 @@
 import os, sys
 from lib import cmdline
 from lib import dataset
+from lib import encoder
 from lib import classifier
 
 
@@ -17,13 +18,9 @@ if errMsg != "":
 
 
 ##### Main
-Seqs = dataset.LoadTSV2List(Config.input_file)
 model = classifier.Load(Config.model_path)
+Itest = encoder.IndependentTest(Config.input_file)
+Itest.TSV2Kmers(n)
 
-for seq in Seqs[1:]:
-	Ks = dataset.Seq2Kmer(seq[1], n)
-
-	for k in Ks:
-		print(model.predict(k))
-
-	exit()
+for feature in Itest.ToPSSM():
+    print(model.predict([feature]))
