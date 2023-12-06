@@ -1,4 +1,5 @@
 ##### Import
+import joblib
 from xgboost import XGBClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
@@ -8,6 +9,12 @@ from sklearn.ensemble import RandomForestClassifier
 
 
 ##### Functions
+def Load(path):
+    return joblib.load(path)
+
+def Save(model, path):
+    joblib.dump(model, path)
+
 def DecisionTree():
     return DecisionTreeClassifier()
 

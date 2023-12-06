@@ -1,5 +1,6 @@
 ##### Import
 import random
+import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve
 from sklearn.metrics import roc_auc_score
@@ -12,6 +13,24 @@ from sklearn.model_selection import train_test_split
 
 
 ##### Functions
+def LoadTSV2List(path2data):
+	df = pd.read_csv(path2data, sep='\t', header=None)
+
+	return df.values.tolist()
+
+def Seq2Kmer(seq, k):
+	RET = []
+
+	print(seq, k)
+
+	for i in range(k, len(seq)-k):
+		if seq[i] != "K":
+			continue
+		
+		RET.append(seq[i-k:i+k+1])
+
+	return RET
+
 def Balance(db1, db2):
 	num1, num2 = len(db1), len(db2)
 
@@ -21,7 +40,7 @@ def Balance(db1, db2):
 	return [db1, random.sample(db2, num1)]
 
 def SplitDataset(X, y, testRatio):
-	return train_test_split(X, y, test_size=testRatio)
+	return train_test_split(X, y, test_size=testRatio, random_state=42)
 
 def SplitNfold(numSplit):
 	return StratifiedKFold(n_splits=numSplit, shuffle=True)
