@@ -1,6 +1,5 @@
 ##### Import
 import random
-import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve
 from sklearn.metrics import roc_auc_score
@@ -13,15 +12,8 @@ from sklearn.model_selection import train_test_split
 
 
 ##### Functions
-def LoadTSV2List(path2data):
-	df = pd.read_csv(path2data, sep='\t', header=None)
-
-	return df.values.tolist()
-
 def Seq2Kmer(seq, k):
 	RET = []
-
-	print(seq, k)
 
 	for i in range(k, len(seq)-k):
 		if seq[i] != "K":
