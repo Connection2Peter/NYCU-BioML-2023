@@ -112,3 +112,23 @@ class Encode:
             y.append(1)
 
         return pd.DataFrame(X), pd.DataFrame(y)
+
+### IndependentTest
+class IndependentTest:
+    def __init__(self, dataset):
+        self.dataset = dataset
+        self.Kmers = []
+
+    def TSV2Kmers(self, k):
+        Seqs = pd.read_csv(self.dataset, sep='\t', header=None).values.tolist()
+        Kmer = []
+
+        for Seq in Seqs[1:]:
+            for frag in dataset.Seq2Kmer(Seq[1], k):
+                Kmer.append(frag)
+
+        self.Kmers = Kmer
+
+
+    def ToPSSM(self):
+        return feature.BLOSUM62(self.Kmers)
