@@ -1,11 +1,11 @@
 ##### Import
 import sys
 import numpy as np
+import sklearn
 from lib import cmdline
 from lib import dataset
 from lib import encoder
 from lib import classifier
-
 
 
 ##### Argument
@@ -57,7 +57,7 @@ FeatureEncoder = encoder.Encode(Config.positive_data, Config.negative_data)
 print("### 1. Performance Comparison of Different Feature Encoding Methods")
 print("Feature", "\t".join(["Sn", "Sp", "Acc", "MCC", "AUC"]))
 
-RF = classifier.RandomForest(nTree)
+# RF = classifier.RandomForest(nTree)
 Datas = GetQ1Feature(FeatureEncoder)
 
 for k, Vs in Datas.items():
@@ -68,6 +68,7 @@ for k, Vs in Datas.items():
         X_train, X_test = X.iloc[trainIdx], X.iloc[testIdx]
         y_train, y_test = y.iloc[trainIdx], y.iloc[testIdx]
 
+        RF = classifier.RandomForest(nTree) #
         RF.fit(X_train, y_train.values.ravel())
 
         Evas.append(dataset.Evaluation(y_test, RF.predict(X_test)))
@@ -85,13 +86,15 @@ X, y = FeatureEncoder.ToPSSM()
 Clfs = GetQ2Classifier()
 
 for k, Vs in Clfs.items():
-    model = Vs["Model"]
+    # model = Vs["Model"]
+    vsmodel = Vs["Model"] #
     Evas, ROCs = [], []
 
     for trainIdx, testIdx in DataSplit.split(X, y):
         X_train, X_test = X.iloc[trainIdx], X.iloc[testIdx]
         y_train, y_test = y.iloc[trainIdx], y.iloc[testIdx]
 
+        model = sklearn.base.clone(vsmodel) #
         model.fit(X_train, y_train.values.ravel())
 
         y_pred = model.predict(X_test)
