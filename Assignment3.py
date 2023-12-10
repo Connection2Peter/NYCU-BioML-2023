@@ -57,7 +57,6 @@ FeatureEncoder = encoder.Encode(Config.positive_data, Config.negative_data)
 print("### 1. Performance Comparison of Different Feature Encoding Methods")
 print("Feature", "\t".join(["Sn", "Sp", "Acc", "MCC", "AUC"]))
 
-# RF = classifier.RandomForest(nTree)
 Datas = GetQ1Feature(FeatureEncoder)
 
 for k, Vs in Datas.items():
@@ -68,7 +67,7 @@ for k, Vs in Datas.items():
         X_train, X_test = X.iloc[trainIdx], X.iloc[testIdx]
         y_train, y_test = y.iloc[trainIdx], y.iloc[testIdx]
 
-        RF = classifier.RandomForest(nTree) #
+        RF = classifier.RandomForest(nTree)
         RF.fit(X_train, y_train.values.ravel())
 
         Evas.append(dataset.Evaluation(y_test, RF.predict(X_test)))
@@ -82,19 +81,18 @@ print("### 2. Performance Comparison of Different Supervised Learning Methods")
 print("Method", "\t".join(["Sn", "Sp", "Acc", "MCC", "AUC"]))
 
 MeanROCs = []
-X, y = FeatureEncoder.ToPSSM()
+X, y = FeatureEncoder.ToOneHot()
 Clfs = GetQ2Classifier()
 
 for k, Vs in Clfs.items():
-    # model = Vs["Model"]
-    vsmodel = Vs["Model"] #
+    vsmodel = Vs["Model"]
     Evas, ROCs = [], []
 
     for trainIdx, testIdx in DataSplit.split(X, y):
         X_train, X_test = X.iloc[trainIdx], X.iloc[testIdx]
         y_train, y_test = y.iloc[trainIdx], y.iloc[testIdx]
 
-        model = sklearn.base.clone(vsmodel) #
+        model = sklearn.base.clone(vsmodel)
         model.fit(X_train, y_train.values.ravel())
 
         y_pred = model.predict(X_test)
