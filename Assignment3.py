@@ -39,6 +39,7 @@ def GetQ1Feature(Encoder):
 def GetQ2Classifier():
     Clfs = {
         "DT"  : {"Model" : classifier.DecisionTree(), "Name" : "Decision Tree"},
+        "VC"  : {"Model" : classifier.VoteClassifier(nTree), "Name" : "Voting Classifier"},
         "RF"  : {"Model" : classifier.RandomForest(nTree), "Name" : "Random Forest"},
         "SVM" : {"Model" : classifier.SupportVectorMachine(), "Name" : "Support Vector Machine"},
         "XGB" : {"Model" : classifier.XGBoost(nTree), "Name" : "XGBoost"},
@@ -54,27 +55,27 @@ DataSplit = dataset.SplitNfold(nSplit)
 FeatureEncoder = encoder.Encode(Config.positive_data, Config.negative_data)
 
 ### Q1
-print("### 1. Performance Comparison of Different Feature Encoding Methods")
-print("Feature", "\t".join(["Sn", "Sp", "Acc", "MCC", "AUC"]))
+# print("### 1. Performance Comparison of Different Feature Encoding Methods")
+# print("Feature", "\t".join(["Sn", "Sp", "Acc", "MCC", "AUC"]))
 
-RF = classifier.RandomForest(nTree)
-Datas = GetQ1Feature(FeatureEncoder)
+# RF = classifier.RandomForest(nTree)
+# Datas = GetQ1Feature(FeatureEncoder)
 
-for k, Vs in Datas.items():
-    X, y = Vs["X"], Vs["y"]
-    Evas = []
+# for k, Vs in Datas.items():
+#     X, y = Vs["X"], Vs["y"]
+#     Evas = []
 
-    for trainIdx, testIdx in DataSplit.split(X, y):
-        X_train, X_test = X.iloc[trainIdx], X.iloc[testIdx]
-        y_train, y_test = y.iloc[trainIdx], y.iloc[testIdx]
+#     for trainIdx, testIdx in DataSplit.split(X, y):
+#         X_train, X_test = X.iloc[trainIdx], X.iloc[testIdx]
+#         y_train, y_test = y.iloc[trainIdx], y.iloc[testIdx]
 
-        RF.fit(X_train, y_train.values.ravel())
+#         RF.fit(X_train, y_train.values.ravel())
 
-        Evas.append(dataset.Evaluation(y_test, RF.predict(X_test)))
+#         Evas.append(dataset.Evaluation(y_test, RF.predict(X_test)))
 
-    print("{}\t{}".format(k, "\t".join(["{:.3f}".format(100*v) for v in np.mean(np.array(Evas), axis=0)])))
+#     print("{}\t{}".format(k, "\t".join(["{:.3f}".format(100*v) for v in np.mean(np.array(Evas), axis=0)])))
 
-del(Datas, RF)
+# del(Datas, RF)
 
 
 ### Q2

@@ -5,6 +5,7 @@ from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import VotingClassifier
 
 
 
@@ -29,3 +30,6 @@ def XGBoost(nTree):
 
 def MultilayerPerceptron():
     return MLPClassifier(max_iter=2000)
+
+def VoteClassifier(nTree):
+    return VotingClassifier(estimators=[('rf', RandomForest(nTree)), ('svc', SVC(probability=True)), ('xgb', XGBoost(nTree))], voting='soft')
