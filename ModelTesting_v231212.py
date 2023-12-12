@@ -17,11 +17,11 @@ file = sys.argv[1]
 
 
 ##### Main
-ratio = 0.8
+ratio = 0.2
 maxlen = 5000
-epochs = 2
+epochs = 10
 vocab_size = 23
-batch_size = 32
+batch_size = 24
 
 Encoder = encoder.EntireSeqEncoder(file)
 X, y = Encoder.toSeqDB(maxlen)
@@ -31,7 +31,10 @@ print("Shape of y :", y.shape)
 
 X_train, X_test, y_train, y_test = dataset.SplitDataset(X, y, ratio)
 
-model = model = transformer.Transformer(
+print("Shape of X_train :", X_train.shape)
+print("Shape of X_test :", X_test.shape)
+
+model = transformer.Transformer(
 	vocab_size=vocab_size,
 	maxlen=maxlen,
 	embed_dim=32,

@@ -1,6 +1,6 @@
 ##### Import
 import random
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import accuracy_score
@@ -43,14 +43,15 @@ def ROC(y_test, y_pred):
 	return [fpr, tpr]
 
 def ROCs(Datas):
-	for Data in Datas:
-		plt.plot(Data[1][0], Data[1][1], label='{} (AUC = {})'.format(Data[0], Data[1][2]))
-
-	plt.title("ROC Curve")
-	plt.xlabel("False Positive Rate")
-	plt.ylabel("True Positive Rate")
-	plt.legend(loc=4)
-	plt.show()
+	print(Datas)
+#	for Data in Datas:
+#		plt.plot(Data[1][0], Data[1][1], label='{} (AUC = {})'.format(Data[0], Data[1][2]))
+#
+#	plt.title("ROC Curve")
+#	plt.xlabel("False Positive Rate")
+#	plt.ylabel("True Positive Rate")
+#	plt.legend(loc=4)
+#	plt.show()
 
 def Evaluation(y_test, y_pred):
 	tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
