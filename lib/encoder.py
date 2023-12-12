@@ -61,15 +61,22 @@ class Encode:
 
         NewDBs = dataset.Balance(db1, db2)
 
+        y = [0] * len(NewDBs[0]) + [1] * len(NewDBs[1])
+
         del(db1, db2)
 
-        for negativeData in feature.PWM(NewDBs[0]):
-            X.append(negativeData)
-            y.append(0)
+        for data in feature.PWM(NewDBs[0] + NewDBs[1]):
+            X.append(data)
+            # y.append(0)
 
-        for positiveData in feature.PWM(NewDBs[1]):
-            X.append(positiveData)
-            y.append(1)
+
+        # for negativeData in feature.PWM(NewDBs[0]):
+        #     X.append(negativeData)
+        #     y.append(0)
+
+        # for positiveData in feature.PWM(NewDBs[1]):
+        #     X.append(positiveData)
+        #     y.append(1)
 
         return pd.DataFrame(X), pd.DataFrame(y)
     
@@ -81,15 +88,22 @@ class Encode:
 
         NewDBs = dataset.Balance(db1, db2)
 
+        y = [0] * len(NewDBs[0]) + [1] * len(NewDBs[1])
+
         del(db1, db2)
 
-        for negativeData in feature.PSSM(NewDBs[0]):
-            X.append(negativeData)
-            y.append(0)
+        for data in feature.PSSM(NewDBs[0] + NewDBs[1]):
+            X.append(data)
+            # y.append(0)
 
-        for positiveData in feature.PSSM(NewDBs[1]):
-            X.append(positiveData)
-            y.append(1)
+
+        # for negativeData in feature.PSSM(NewDBs[0]):
+        #     X.append(negativeData)
+        #     y.append(0)
+
+        # for positiveData in feature.PSSM(NewDBs[1]):
+        #     X.append(positiveData)
+        #     y.append(1)
 
         return pd.DataFrame(X), pd.DataFrame(y)
 

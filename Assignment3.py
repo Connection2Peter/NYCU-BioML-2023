@@ -76,12 +76,13 @@ for k, Vs in Datas.items():
 
 del(Datas, RF)
 
+
 ### Q2
 print("### 2. Performance Comparison of Different Supervised Learning Methods")
 print("Method", "\t".join(["Sn", "Sp", "Acc", "MCC", "AUC"]))
 
 MeanROCs = []
-X, y = FeatureEncoder.ToPSSM()
+X, y = FeatureEncoder.ToOneHot()
 Clfs = GetQ2Classifier()
 
 for k, Vs in Clfs.items():
