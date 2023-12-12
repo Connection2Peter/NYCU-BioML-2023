@@ -1,5 +1,6 @@
 ##### Import
 import sys
+import warnings
 import numpy as np
 from lib import cmdline
 from lib import dataset
@@ -7,6 +8,7 @@ from lib import encoder
 from lib import classifier
 
 
+warnings.filterwarnings('ignore')
 
 ##### Argument
 nSplit, nTree = 5, 500
@@ -38,12 +40,13 @@ def GetQ1Feature(Encoder):
 
 def GetQ2Classifier():
     Clfs = {
-        "DT"  : {"Model" : classifier.DecisionTree(), "Name" : "Decision Tree"},
-        "VC"  : {"Model" : classifier.VoteClassifier(nTree), "Name" : "Voting Classifier"},
-        "RF"  : {"Model" : classifier.RandomForest(nTree), "Name" : "Random Forest"},
-        "SVM" : {"Model" : classifier.SupportVectorMachine(), "Name" : "Support Vector Machine"},
+    #    "DT"  : {"Model" : classifier.DecisionTree(), "Name" : "Decision Tree"},
+    #    "RF"  : {"Model" : classifier.RandomForest(100), "Name" : "Random Forest"},
+    #    "SVM" : {"Model" : classifier.SupportVectorMachine(), "Name" : "Support Vector Machine"},
         "XGB" : {"Model" : classifier.XGBoost(nTree), "Name" : "XGBoost"},
-        "MLP" : {"Model" : classifier.MultilayerPerceptron(), "Name" : "Multilayer Perceptron"},
+    #    "MLP" : {"Model" : classifier.MultilayerPerceptron(), "Name" : "Multilayer Perceptron"},
+    #    "VC"  : {"Model" : classifier.VoteClassifier(nTree), "Name" : "Voting Classifier"},
+        "CB"  : {"Model" : classifier.CatBoost(), "Name" : "CatBoost"},
     }
 
     return Clfs

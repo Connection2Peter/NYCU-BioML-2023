@@ -1,0 +1,6 @@
+nohup: ignoring input
+### 2. Performance Comparison of Different Supervised Learning Methods
+Method Sn	Sp	Acc	MCC	AUC
+XGB	80.994	76.602	78.798	57.658	78.798
+CB	74.707	71.981	73.344	46.710	73.344
+### Done !
