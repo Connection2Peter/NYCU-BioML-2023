@@ -32,7 +32,7 @@ def Balance(db1, db2):
 	return [db1, random.sample(db2, num1)]
 
 def SplitDataset(X, y, testRatio):
-	return train_test_split(X, y, test_size=testRatio, random_state=42)
+	return train_test_split(X, y, test_size=testRatio, random_state=87)
 
 def SplitNfold(numSplit):
 	return StratifiedKFold(n_splits=numSplit, shuffle=True)
@@ -64,3 +64,4 @@ def Evaluation(y_test, y_pred):
 	]
 
 	return Metrics
+	
