@@ -1,2 +1,4 @@
-.vs/
 *.pyc
+.vs/
+catboost_info/
+lib/__pycache__/
