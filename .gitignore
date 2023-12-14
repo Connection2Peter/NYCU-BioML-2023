@@ -1,4 +1,6 @@
-*.pyc
 .vs/
 catboost_info/
 lib/__pycache__/
+dbs/
+data/
+features/
