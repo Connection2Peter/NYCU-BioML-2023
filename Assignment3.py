@@ -46,7 +46,7 @@ def GetQ2Classifier():
         "XGB" : {"Model" : classifier.XGBoost(nTree), "Name" : "XGBoost"},
     #    "MLP" : {"Model" : classifier.MultilayerPerceptron(), "Name" : "Multilayer Perceptron"},
     #    "VC"  : {"Model" : classifier.VoteClassifier(nTree), "Name" : "Voting Classifier"},
-        "CB"  : {"Model" : classifier.CatBoost(), "Name" : "CatBoost"},
+        "CB"  : {"Model" : classifier.CatBoost(10000), "Name" : "CatBoost"},
     }
 
     return Clfs

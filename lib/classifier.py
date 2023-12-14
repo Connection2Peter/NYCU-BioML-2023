@@ -34,6 +34,6 @@ def MultilayerPerceptron():
 def VoteClassifier(nTree):
     return VotingClassifier(estimators=[('rf', RandomForest(nTree)), ('rf2', RandomForest(nTree, "entropy")), ('xgb', XGBoost(nTree))], voting='soft')
 
-def CatBoost():
-    return CatBoostClassifier(iterations=1000, verbose=False)
+def CatBoost(nTree):
+    return CatBoostClassifier(iterations=nTree, verbose=False)
 
