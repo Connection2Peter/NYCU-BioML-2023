@@ -1,6 +1,7 @@
+import csv
+import numpy as np
 import tensorflow as tf
 from tensorflow import keras
-#import keras
 from tensorflow.keras import layers
 
 class TransformerBlock(layers.Layer):
@@ -49,6 +50,40 @@ def Transformer(maxlen, num_heads, vocab_size, embed_dim, ff_dim):
 	outputs = layers.Dense(3, activation="softmax")(x)
 
 	model = keras.Model(inputs=inputs, outputs=outputs)
-	model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
+
+	lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
+	    initial_learning_rate=1e-2,
+	    decay_steps=10000,
+	    decay_rate=0.9)
+	optimizer = tf.keras.optimizers.Adam(learning_rate=lr_schedule)
+
+	model.compile(optimizer=optimizer, loss="sparse_categorical_crossentropy", metrics=["accuracy"])
+	#model.compile(optimizer=optimizer"adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
 	return model
+
+def SeqProbMat2ClassMat(ProbMat):
+    return [np.argmax(i) for i in ProbMat]
+
+def Evualte(pred, real):
+    same = 0
+    macLen = len(pred)
+
+    for i in range(macLen):
+        if pred[i] == real[i]:
+            same += 1
+
+    return same / macLen
+
+def ExportDB2Csv(DB, saveTo):
+	df = pd.DataFrame(DB)
+
+	df.to_csv(saveTo, index=False, header=False)
+
+def ExportPredRealDB2Csv(Real, Pred, Acc, saveTo):
+	with open(saveTo, 'w', newline='') as csvfile:
+	    csv_writer = csv.writer(csvfile)
+
+	    for i in range(len(Real)):
+    		csv_writer.writerow([str(i), str(Acc[i]), "Real"] + list(map(str, Real[i])))
+    		csv_writer.writerow([str(i), str(Acc[i]), "Pred"] + list(map(str, Pred[i])))

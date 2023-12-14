@@ -134,6 +134,15 @@ class EntireSeqEncoder:
 
 		return np.array(X), np.array(y)
 	
+	def toSeqDB3D(self, maxLen):
+		X, y = [], []
+
+		for k, v in self.SeqMaps.items():
+			X.append(feature.PaddingSeq(feature.Seq2Int(k), maxLen))
+			y.append(feature.PaddingSeq(feature.PositionMatrix(k, v), maxLen))
+
+		return np.array(X), np.array(y)
+	
 ### IndependentTest
 class IndependentTest:
 	def __init__(self, dataset):
