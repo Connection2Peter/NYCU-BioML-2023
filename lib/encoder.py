@@ -109,6 +109,16 @@ class Encode:
     
     def ToEAAC(self):
         return ifeature.IFeature(self.db1, self.db2, "EAAC").iFeatureEncode()
+    
+    def ToCKSAAP(self):
+        return ifeature.IFeature(self.db1, self.db2, "CKSAAP").iFeatureEncode()
+    
+    def ToDPC(self):
+        return ifeature.IFeature(self.db1, self.db2, "DPC").iFeatureEncode()
+    
+    def ToDDE(self):
+        return ifeature.IFeature(self.db1, self.db2, "DDE").iFeatureEncode()
+
 
 
 ### IndependentTest
@@ -130,7 +140,3 @@ class IndependentTest:
 
     def ToPSSM(self):
         return feature.BLOSUM62(self.Kmers)
-
-
-if __name__ == '__main__':
-    Encode("dataset/Junjie/processed/PositiveData_50.fasta", "dataset/Junjie/processed/NegativeData_50.fasta").ToEAAC()
