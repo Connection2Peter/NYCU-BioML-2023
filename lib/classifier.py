@@ -21,39 +21,39 @@ def Load(path):
 def Save(model, path):
     joblib.dump(model, path)
 
-def DecisionTree():
-    return DecisionTreeClassifier()
+def DecisionTree(**kwargs):
+    return DecisionTreeClassifier(**kwargs)
 
-def RandomForest(nTree):
-	return RandomForestClassifier(n_estimators=nTree, n_jobs=-1)
+def RandomForest(nTree, n_jobs=-1, **kwargs):
+	return RandomForestClassifier(n_estimators=nTree, n_jobs=n_jobs, **kwargs)
 
-def SupportVectorMachine():
-    return SVC(probability=True)
+def SupportVectorMachine(probability=True, **kwargs):
+    return SVC(**kwargs)
 
-def XGBoost(nTree):
-    return XGBClassifier(n_estimators=nTree, n_jobs=-1)
+def XGBoost(n_estimators, n_jobs=-1, **kwargs):
+    return XGBClassifier(n_estimators=n_estimators, n_jobs=n_jobs, **kwargs)
 
-def MultilayerPerceptron():
-    return MLPClassifier(max_iter=2000)
+def MultilayerPerceptron(max_iter=2000, **kwargs):
+    return MLPClassifier(max_iter=max_iter, **kwargs)
 
-def VoteClassifier(nTree, models):
+def VoteClassifier(models):
     return VotingClassifier(estimators=models, voting='soft')
 
-def AdaBoost():
-    return AdaBoostClassifier()
+def AdaBoost(**kwargs):
+    return AdaBoostClassifier(**kwargs)
 
-def GradientBoosting():
-    return GradientBoostingClassifier()
+def GradientBoosting(**kwargs):
+    return GradientBoostingClassifier(**kwargs)
 
-def ExtraTrees():
-    return ExtraTreesClassifier()
+def ExtraTrees(**kwargs):
+    return ExtraTreesClassifier(**kwargs)
 
-def GaussianNaiveBayes():
-    return GaussianNB()
+def GaussianNaiveBayes(**kwargs):
+    return GaussianNB(**kwargs)
 
-def KNeighbors():
-    return KNeighborsClassifier()
+def KNeighbors(**kwargs):
+    return KNeighborsClassifier(**kwargs)
 
-def CatBoost(nTree):
-    return CatBoostClassifier(iterations=nTree, verbose=False)
+def CatBoost(nTree, verbose=False, **kwargs):
+    return CatBoostClassifier(iterations=nTree, verbose=verbose, **kwargs)
 

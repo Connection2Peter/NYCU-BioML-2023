@@ -44,7 +44,7 @@ class Roc_curve:
             self.mean_tpr = 0.0
 
 
-    def plot(self):
+    def plot(self, output=None):
         for i in range(len(self.mean_fprs)):
             plt.plot(self.mean_fprs[i], self.mean_tprs[i], lw=2, label=f'{self.titles[i]} (AUC = {self.aucs[i]:.3f})')
         plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
@@ -54,4 +54,7 @@ class Roc_curve:
         plt.ylabel('True Positive Rate')
         plt.title('ROC Curve')
         plt.legend(loc='lower right')
-        plt.show()
+        if output == None:
+            plt.show()
+        else:
+            plt.savefig(output, dpi=600)

@@ -51,18 +51,25 @@ if errMsg != "":
 
 def GetQ2Classifier():
     Clfs = {
-        "DT"  : {"Model" : classifier.DecisionTree(), "Name" : "Decision Tree"},
-        "RF"  : {"Model" : classifier.RandomForest(nTree), "Name" : "Random Forest"},
-        "SVM" : {"Model" : classifier.SupportVectorMachine(), "Name" : "Support Vector Machine"},
-        "XGB" : {"Model" : classifier.XGBoost(nTree), "Name" : "XGBoost"},
-        "MLP" : {"Model" : classifier.MultilayerPerceptron(), "Name" : "Multilayer Perceptron"},
-        # "VC"  : {"Model" : classifier.VoteClassifier(nTree, [('rf', classifier.RandomForest(nTree)), ('svm', classifier.SupportVectorMachine()), ('xgb', classifier.XGBoost(nTree)), ('mlp', classifier.MultilayerPerceptron())]), "Name" : "Ensemble Learning"},
-        "Ada" : {"Model" : classifier.AdaBoost(), "Name" : "AdaBoost"},
-        "GB"  : {"Model" : classifier.GradientBoosting(), "Name" : "Gradient Boosting"},
-        "ET"  : {"Model" : classifier.ExtraTrees(), "Name" : "Extra Trees"},
-        "GNB" : {"Model" : classifier.GaussianNaiveBayes(), "Name" : "Gaussian Naive Bayes"},
-        "KNN" : {"Model" : classifier.KNeighbors(), "Name" : "K Nearest Neighbors"},
-        "CB"  : {"Model" : classifier.CatBoost(10000), "Name" : "CatBoost"},
+       # "DT"  : {"Model" : classifier.DecisionTree(), "Name" : "Decision Tree"},
+       # "RF"  : {"Model" : classifier.RandomForest(nTree), "Name" : "Random Forest"},
+       # "SVM" : {"Model" : classifier.SupportVectorMachine(), "Name" : "Support Vector Machine"},
+       # "XGB" : {"Model" : classifier.XGBoost(nTree), "Name" : "XGBoost"},
+       # "MLP" : {"Model" : classifier.MultilayerPerceptron(), "Name" : "Multilayer Perceptron"},
+       "VC"  : {"Model" : classifier.VoteClassifier(nTree, [
+        ('rf1', classifier.RandomForest(nTree)),
+        ('rf2', classifier.RandomForest(nTree, criterion = "entropy")),
+        ('rf3', classifier.RandomForest(nTree, criterion = "log_loss")),
+        ('svm', classifier.SupportVectorMachine()),
+        ('cb', classifier.CatBoost(10000)),
+        ('gb', classifier.GradientBoosting()),
+        ]), "Name" : "Ensemble Learning"},
+       # "Ada" : {"Model" : classifier.AdaBoost(), "Name" : "AdaBoost"},
+       # "GB"  : {"Model" : classifier.GradientBoosting(), "Name" : "Gradient Boosting"},
+       # "ET"  : {"Model" : classifier.ExtraTrees(), "Name" : "Extra Trees"},
+       # "GNB" : {"Model" : classifier.GaussianNaiveBayes(), "Name" : "Gaussian Naive Bayes"},
+       # "KNN" : {"Model" : classifier.KNeighbors(), "Name" : "K Nearest Neighbors"},
+       # "CB"  : {"Model" : classifier.CatBoost(10000), "Name" : "CatBoost"},
     }
 
     return Clfs
@@ -132,6 +139,6 @@ for k, Vs in Clfs.items():
 
     print("{}\t{}".format(k, "\t".join(["{:.3f}".format(100*v) for v in Means])))
 
-RocPlot.plot()
+RocPlot.plot("output.png")
 
 print("### Done !")

@@ -1,0 +1,1 @@
+nohup python Assignment3.py -p dataset/Junjie/PositiveData_50.fasta -n dataset/Junjie/NegativeData_50.fasta > doc/junjie/classifier_validation.out &
