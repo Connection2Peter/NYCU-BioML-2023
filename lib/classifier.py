@@ -5,7 +5,8 @@ from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.ensemble import RandomForestClassifier
-
+from sklearn.ensemble import VotingClassifier
+from catboost import CatBoostClassifier
 
 
 ##### Functions
@@ -22,10 +23,17 @@ def RandomForest(nTree):
 	return RandomForestClassifier(n_estimators=nTree, n_jobs=-1)
 
 def SupportVectorMachine():
-    return SVC()
+    return SVC(probability=True)
 
 def XGBoost(nTree):
     return XGBClassifier(n_estimators=nTree, n_jobs=-1)
 
 def MultilayerPerceptron():
     return MLPClassifier(max_iter=2000)
+
+def VoteClassifier(nTree):
+    return VotingClassifier(estimators=[('rf', RandomForest(nTree)), ('svm', SupportVectorMachine()), ('xgb', XGBoost(nTree)), ('mlp', MultilayerPerceptron())], voting='soft')
+
+def CatBoost(nTree):
+    return CatBoostClassifier(iterations=nTree, verbose=False)
+

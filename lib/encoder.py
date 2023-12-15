@@ -3,7 +3,7 @@ import pandas as pd
 from Bio import SeqIO
 from lib import feature
 from lib import dataset
-
+from lib import ifeature
 
 
 ##### Functions
@@ -67,19 +67,9 @@ class Encode:
 
         for data in feature.PWM(NewDBs[0] + NewDBs[1]):
             X.append(data)
-            # y.append(0)
-
-
-        # for negativeData in feature.PWM(NewDBs[0]):
-        #     X.append(negativeData)
-        #     y.append(0)
-
-        # for positiveData in feature.PWM(NewDBs[1]):
-        #     X.append(positiveData)
-        #     y.append(1)
 
         return pd.DataFrame(X), pd.DataFrame(y)
-    
+
     def ToPSSM(self):
         X, y = [], []
 
@@ -94,16 +84,6 @@ class Encode:
 
         for data in feature.PSSM(NewDBs[0] + NewDBs[1]):
             X.append(data)
-            # y.append(0)
-
-
-        # for negativeData in feature.PSSM(NewDBs[0]):
-        #     X.append(negativeData)
-        #     y.append(0)
-
-        # for positiveData in feature.PSSM(NewDBs[1]):
-        #     X.append(positiveData)
-        #     y.append(1)
 
         return pd.DataFrame(X), pd.DataFrame(y)
 
@@ -126,6 +106,20 @@ class Encode:
             y.append(1)
 
         return pd.DataFrame(X), pd.DataFrame(y)
+    
+    def ToEAAC(self):
+        return ifeature.IFeature(self.db1, self.db2, "EAAC").iFeatureEncode()
+    
+    def ToCKSAAP(self):
+        return ifeature.IFeature(self.db1, self.db2, "CKSAAP").iFeatureEncode()
+    
+    def ToDPC(self):
+        return ifeature.IFeature(self.db1, self.db2, "DPC").iFeatureEncode()
+    
+    def ToDDE(self):
+        return ifeature.IFeature(self.db1, self.db2, "DDE").iFeatureEncode()
+
+
 
 ### IndependentTest
 class IndependentTest:
