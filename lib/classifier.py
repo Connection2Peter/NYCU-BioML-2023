@@ -19,8 +19,8 @@ def Save(model, path):
 def DecisionTree():
     return DecisionTreeClassifier()
 
-def RandomForest(nTree, crit="gini", md=None, mss=2, msl=1, mwfl=0.0):
-	return RandomForestClassifier(n_estimators=nTree, criterion=crit, n_jobs=-1)
+def RandomForest(nTree):
+	return RandomForestClassifier(n_estimators=nTree, n_jobs=-1)
 
 def SupportVectorMachine():
     return SVC()
@@ -32,7 +32,7 @@ def MultilayerPerceptron():
     return MLPClassifier(max_iter=2000)
 
 def VoteClassifier(nTree):
-    return VotingClassifier(estimators=[('rf', RandomForest(nTree)), ('rf2', RandomForest(nTree, "entropy")), ('xgb', XGBoost(nTree))], voting='soft')
+    return VotingClassifier(estimators=[('rf', RandomForest(nTree)), ('cb', CatBoost(10000)), ('xgb', XGBoost(nTree))], voting='soft')
 
 def CatBoost(nTree):
     return CatBoostClassifier(iterations=nTree, verbose=False)

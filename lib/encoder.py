@@ -6,7 +6,6 @@ from lib import dataset
 from lib import ifeature
 
 
-
 ##### Functions
 ### Encoder
 class Encode:
@@ -70,7 +69,7 @@ class Encode:
             X.append(data)
 
         return pd.DataFrame(X), pd.DataFrame(y)
-    
+
     def ToPSSM(self):
         X, y = [], []
 
@@ -109,7 +108,7 @@ class Encode:
         return pd.DataFrame(X), pd.DataFrame(y)
     
     def ToEAAC(self):
-        return ifeature.IFeature( self.db1, self.db2, "EAAC").Encode()
+        return ifeature.IFeature(self.db1, self.db2, "EAAC").iFeatureEncode()
 
 
 ### IndependentTest
@@ -131,3 +130,7 @@ class IndependentTest:
 
     def ToPSSM(self):
         return feature.BLOSUM62(self.Kmers)
+
+
+if __name__ == '__main__':
+    Encode("dataset/Junjie/processed/PositiveData_50.fasta", "dataset/Junjie/processed/NegativeData_50.fasta").ToEAAC()
