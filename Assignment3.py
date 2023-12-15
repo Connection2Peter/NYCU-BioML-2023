@@ -24,39 +24,44 @@ if errMsg != "":
 
 
 ##### Functions
-def GetQ1Feature(Encoder):
-    X1, y1 = Encoder.ToOneHot()
-    X2, y2 = Encoder.ToAAC()
-    X3, y3 = Encoder.ToPWM()
-    X4, y4 = Encoder.ToPSSM()
-    X5, y5 = Encoder.ToBLOSUM62()
-    X6, y6 = Encoder.ToEAAC()
-    X7, y7 = Encoder.ToCKSAAP()
-    X8, y8 = Encoder.ToDPC()
-    X9, y9 = Encoder.ToDDE()
+# def GetQ1Feature(Encoder):
+#     X1, y1 = Encoder.ToOneHot()
+#     X2, y2 = Encoder.ToAAC()
+#     X3, y3 = Encoder.ToPWM()
+#     X4, y4 = Encoder.ToPSSM()
+#     X5, y5 = Encoder.ToBLOSUM62()
+#     X6, y6 = Encoder.ToEAAC()
+#     X7, y7 = Encoder.ToCKSAAP()
+#     X8, y8 = Encoder.ToDPC()
+#     X9, y9 = Encoder.ToDDE()
 
-    DBs = {
-        "OneHot" : {"X": X1, "y" : y1},
-        "AAC"    : {"X": X2, "y" : y2},
-        "PWM"    : {"X": X3, "y" : y3},
-        "PSSM"   : {"X": X4, "y" : y4},
-        "BLOSUM" : {"X": X5, "y" : y5},
-        "EAAC"   : {"X": X6, "y" : y6},
-        "CKSAAP" : {"X": X7, "y" : y7},
-        "DPC"    : {"X": X8, "y" : y8},
-        "DDE"    : {"X": X9, "y" : y9},
-    }
+#     DBs = {
+#         "OneHot" : {"X": X1, "y" : y1},
+#         "AAC"    : {"X": X2, "y" : y2},
+#         "PWM"    : {"X": X3, "y" : y3},
+#         "PSSM"   : {"X": X4, "y" : y4},
+#         "BLOSUM" : {"X": X5, "y" : y5},
+#         "EAAC"   : {"X": X6, "y" : y6},
+#         "CKSAAP" : {"X": X7, "y" : y7},
+#         "DPC"    : {"X": X8, "y" : y8},
+#         "DDE"    : {"X": X9, "y" : y9},
+#     }
 
-    return DBs
+#     return DBs
 
 def GetQ2Classifier():
     Clfs = {
-        # "DT"  : {"Model" : classifier.DecisionTree(), "Name" : "Decision Tree"},
+        "DT"  : {"Model" : classifier.DecisionTree(), "Name" : "Decision Tree"},
         "RF"  : {"Model" : classifier.RandomForest(nTree), "Name" : "Random Forest"},
         "SVM" : {"Model" : classifier.SupportVectorMachine(), "Name" : "Support Vector Machine"},
         "XGB" : {"Model" : classifier.XGBoost(nTree), "Name" : "XGBoost"},
         "MLP" : {"Model" : classifier.MultilayerPerceptron(), "Name" : "Multilayer Perceptron"},
-        # "VC"  : {"Model" : classifier.VoteClassifier(nTree), "Name" : "Voting Classifier"},
+        # "VC"  : {"Model" : classifier.VoteClassifier(nTree, [('rf', classifier.RandomForest(nTree)), ('svm', classifier.SupportVectorMachine()), ('xgb', classifier.XGBoost(nTree)), ('mlp', classifier.MultilayerPerceptron())]), "Name" : "Ensemble Learning"},
+        "Ada" : {"Model" : classifier.AdaBoost(), "Name" : "AdaBoost"},
+        "GB"  : {"Model" : classifier.GradientBoosting(), "Name" : "Gradient Boosting"},
+        "ET"  : {"Model" : classifier.ExtraTrees(), "Name" : "Extra Trees"},
+        "GNB" : {"Model" : classifier.GaussianNaiveBayes(), "Name" : "Gaussian Naive Bayes"},
+        "KNN" : {"Model" : classifier.KNeighbors(), "Name" : "K Nearest Neighbors"},
         "CB"  : {"Model" : classifier.CatBoost(10000), "Name" : "CatBoost"},
     }
 
@@ -70,6 +75,7 @@ FeatureEncoder = encoder.Encode(Config.positive_data, Config.negative_data)
 
 
 ## Q1
+'''
 RF = classifier.RandomForest(nTree)
 Datas = GetQ1Feature(FeatureEncoder)
 
@@ -97,7 +103,7 @@ for k, Vs in Datas.items():
 
 RocPlot.plot()
 del(Datas, RF)
-
+'''
 
 ### Q2
 
