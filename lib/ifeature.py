@@ -45,7 +45,7 @@ class IFeature:
 
         temp_out = temp_fastaFile[:-12] + "_" + self.encoder + ".csv"
 
-        cmd = f"python bin/iFeature/iFeature.py --file {temp_fastaFile} --type {self.encoder} --out {temp_out}"
+        cmd = f"python bin/iFeature/iFeature.py --file {temp_fastaFile} --type {self.encoder} --out {temp_out} > /dev/null"
 
         try:
             os.system(cmd)
