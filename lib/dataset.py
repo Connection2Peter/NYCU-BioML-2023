@@ -52,7 +52,7 @@ def ROCs(Datas):
 	plt.legend(loc=4)
 	plt.show()
 
-def Evaluation(y_test, y_pred):
+def Evaluation(y_test, y_pred, y_prob):
 	tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
 
 	Metrics = [
@@ -60,7 +60,7 @@ def Evaluation(y_test, y_pred):
 		tn / (tn + fp),
 		accuracy_score(y_test, y_pred),
 		matthews_corrcoef(y_test, y_pred),
-		roc_auc_score(y_test, y_pred),
+		roc_auc_score(y_test, y_prob),
 	]
 
 	return Metrics

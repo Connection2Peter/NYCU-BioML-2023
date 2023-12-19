@@ -233,14 +233,14 @@ def Aromatic(Seqs) :
     
     for seq in Seqs :
         Data = []
-        
+
         for aa in seq:
             if aa in A :
                 Data.append(1)
-            
+
             else:
                 Data.append(0)
-    
+
         Datas.append(Data)
 
     return Datas

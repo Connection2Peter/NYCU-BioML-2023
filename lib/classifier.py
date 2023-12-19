@@ -28,7 +28,7 @@ def RandomForest(nTree, n_jobs=-1, **kwargs):
 	return RandomForestClassifier(n_estimators=nTree, n_jobs=n_jobs, **kwargs)
 
 def SupportVectorMachine(probability=True, **kwargs):
-    return SVC(**kwargs)
+    return SVC(probability = probability, **kwargs)
 
 def XGBoost(n_estimators, n_jobs=-1, **kwargs):
     return XGBClassifier(n_estimators=n_estimators, n_jobs=n_jobs, **kwargs)
