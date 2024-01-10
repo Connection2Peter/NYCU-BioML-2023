@@ -1,2 +1,6 @@
 .vs/
-*.pyc
+lib/__pycache__/
+dbs/
+catboost_info/
+data/
+conda/
