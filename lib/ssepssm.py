@@ -1,9 +1,31 @@
 ##### Import
-import subprocess
+import re, subprocess
 
 
 
 ##### Functions
+def isValidSeq(input_str):
+    pattern = re.compile("^[ACDEFGHIKLMNPQRSTVWY]+$")
+
+    return bool(pattern.match(input_str))
+
+def getSSEPSSM(ip, seq):
+    url = f"http://{ip}:12387/ssepssm?seq={seq}"
+
+    try:
+        response = requests.get(url)
+        print(response.text)
+    except requests.exceptions.HTTPError as errh:
+        print(f"HTTP Error: {errh}")
+    except requests.exceptions.ConnectionError as errc:
+        print(f"Error Connecting: {errc}")
+    except requests.exceptions.Timeout as errt:
+        print(f"Timeout Error: {errt}")
+    except requests.exceptions.RequestException as err:
+        print(f"Request Exception: {err}")
+    
+    return response
+
 def GenerateBySeq(prg, seq, tdb, rdb, search, algo, matrix, threads, inifile):
     try:
         RET = subprocess.check_output([
@@ -30,21 +52,14 @@ def GenerateBySeqAndSave(prg, seq, tdb, rdb, search, algo, matrix, threads, inif
 
     return RET
 
-def Parser(rawSSEPSSM):
+def Text2Vector(rawSSEPSSM):
     Features = []
-    SeqPSSMs = rawSSEPSSM.split("## SSE-PSSM:")[1:]
+    Residues = rawSSEPSSM.strip().split("\n")
 
-    for seqPSSM in SeqPSSMs:
-        Columns = []
-        Residue = seqPSSM.strip().split("\n")
+    if len(Residues) <= 10:
+        return []
 
-        if len(Residue) <= 10:
-            continue
-
-        for res in Residue:
-            if len(res) > 1000:
-                Columns.append([float(i) for i in res.strip('\t').split("\t")[2:]])
-
-        Features.append(Columns)
+    for res in Residues[2:]:
+        Features.append([float(x) for x in res.split("\t")[2:]])
 
     return Features

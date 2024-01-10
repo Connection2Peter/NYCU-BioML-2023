@@ -139,3 +139,11 @@ def PaddingSeq(Seqs, maxLen):
 		Seqs.append(0)
 
 	return Seqs
+
+def PaddingMat(Mats, maxLen):
+	Nan = [0 for i in range(len(Mats[0]))]
+
+	for i in range(maxLen - len(Mats)):
+		Mats.append(Nan)
+
+	return Mats

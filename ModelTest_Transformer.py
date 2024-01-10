@@ -35,6 +35,7 @@ X, y = Encoder.toSeqDB(maxlen)
 
 print("Shape of X :", X.shape)
 print("Shape of y :", y.shape)
+exit()
 
 X_train, X_tmp, y_train, y_tmp = dataset.SplitDataset(X, y, ratio)
 X_val, X_test, y_val, y_test = dataset.SplitDataset(X_tmp, y_tmp, val_ratio)

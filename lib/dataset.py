@@ -1,11 +1,13 @@
 ##### Import
 import random
+import pickle
 #import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import matthews_corrcoef
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import train_test_split
 
@@ -14,16 +16,22 @@ from sklearn.model_selection import train_test_split
 ##### Functions
 def Seq2Kmer(seq, k):
 	RET = []
+	Pos = []
 
 	for i in range(k, len(seq)-k):
 		if seq[i] != "K":
 			continue
 		
 		RET.append(seq[i-k:i+k+1])
+		Pos.append(i)
 
-	return RET
+	return RET, Pos
+
+def Balance_bak(db1, db2):
+	return db1, db2
 
 def Balance(db1, db2):
+	random.seed(87)
 	num1, num2 = len(db1), len(db2)
 
 	if num1 > num2:
@@ -65,4 +73,26 @@ def Evaluation(y_test, y_pred):
 	]
 
 	return Metrics
-	
+
+def Normalize2D(Data):
+	return MinMaxScaler().fit_transform(Data)
+
+def SaveObject(obj, path):
+	with open(path, "wb") as f:
+		pickle.dump(obj, f)
+
+def LoadObject(path):
+	with open(path, "rb") as f:
+		return pickle.load(f)
+
+def ShowDatasetComformation(X):
+    numMin, numMax = 0, 0
+    
+    for i in X:
+        for j in i.tolist():
+            if j < numMin:
+                numMin = j
+            if j > numMax:
+                numMax = j
+
+    return numMin, numMax

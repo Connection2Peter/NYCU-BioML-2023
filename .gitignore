@@ -1,7 +1,6 @@
 .vs/
-catboost_info/
 lib/__pycache__/
 dbs/
+catboost_info/
 data/
-features/
-
+conda/
