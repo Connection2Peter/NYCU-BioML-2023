@@ -1,5 +1,14 @@
 # 2023 NYCU Biological Machine Learning Final Project
 
+## Download project
+- ```git clone https://github.com/ConnectionOuOb/NYCU-2023-BioML.git```
+
+## Download modules
+- ```conda install matplotlib xgboost catboost scikit-learn pandas biopython```
+
+## Generate NR sets by CD-Hit
+- ```find testKmer/ -name "*.fasta" | xargs -I % bash -c 'cd-hit -i % -o testNR/$(basename % .fasta).nr050.fasta -c 0.5 -n 2 -T 0'```
+
 ## Contributors
 - Connection
   - Generate Basic & SSE-PSSM feature sets
@@ -13,15 +22,6 @@
   - Generate customize feature sets
   - Dataset pre-processing
   - Independent test
-
-## Download project
-- ```git clone https://github.com/ConnectionOuOb/NYCU-2023-BioML.git```
-
-## Download modules
-- ```conda install matplotlib xgboost catboost scikit-learn pandas biopython```
-
-## Generate NR sets by CD-Hit
-- ```find testKmer/ -name "*.fasta" | xargs -I % bash -c 'cd-hit -i % -o testNR/$(basename % .fasta).nr050.fasta -c 0.5 -n 2 -T 0'```
 
 ## Reference
 1. Chen TR, Juan SH, Huang YW, Lin YC, Lo WC. A secondary structure-based position-specific scoring matrix applied to the improvement in protein secondary structure prediction. PLoS One. 2021 Jul 28;16(7):e0255076. doi: 10.1371/journal.pone.0255076. PMID: 34320027; PMCID: PMC8318245.
