@@ -6,10 +6,10 @@
 ## Download modules
 - ```conda install matplotlib xgboost catboost scikit-learn pandas biopython```
 
-## Generate NR sets by CD-Hit
+## Generate NR set by CD-Hit
 - ```find testKmer/ -name "*.fasta" | xargs -I % bash -c 'cd-hit -i % -o testNR/$(basename % .fasta).nr050.fasta -c 0.5 -n 2 -T 0'```
 
-## Contributors
+## Contributor
 - Connection
   - Generate Basic & SSE-PSSM feature sets
   - All ML/DL related coding
