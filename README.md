@@ -11,15 +11,15 @@
 - ```find testKmer/ -name "*.fasta" | xargs -I % bash -c 'cd-hit -i % -o testNR/$(basename % .fasta).nr050.fasta -c 0.5 -n 2 -T 0'```
 
 ## Contributor
-- Connection
+### Connection
   - Generate Basic & SSE-PSSM feature sets
   - All ML/DL related coding
   - All Experiment
-- Ivern
+### Ivern
   - Generate iFeature feature sets
   - Some Model test case
   - Independent test
-- Brian
+### Brian
   - Generate customize feature sets
   - Dataset pre-processing
   - Independent test
